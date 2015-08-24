@@ -11,7 +11,7 @@ namespace gbforge2.Data
 
         public event Action<Tileset> OnTilesetChanged;
 
-        public string Name;
+        public string Name { get; set; }
         public List<Tile> Tiles = new List<Tile>(128);
     }
 }

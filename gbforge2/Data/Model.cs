@@ -8,11 +8,7 @@ namespace gbforge2.Data
 {
     public class Model
     {
-        private Model()
-        {
-            Tilesets = new List<Tileset>();
-        }
-
+        #region singleton
         private static Model _instance;
 
         public static Model Instance
@@ -26,20 +22,25 @@ namespace gbforge2.Data
                 return _instance;
             }
         }
+        #endregion
+
 
         public event Action OnPaintColorChange;
         public event Action OnPaletteChange;
-
+        public event Action<Tileset> OnTilesetAdded;
+        public event Action OnActiveTilesetChanged;
+      
         public readonly Palette Palette = new Palette();
-        public TileColor PaintColor
+        public TileColor PaintColor { get; private set; } = TileColor.Color_0;
+
+        public List<Tileset> Tilesets { get; private set; }
+
+        public Tileset ActiveTileset { get; private set; }
+
+        private Model()
         {
-            get
-            {
-                return _paintColor;
-            }
+            Tilesets = new List<Tileset>();
         }
-        TileColor _paintColor = TileColor.Color_0;
-        List<Tileset> Tilesets;
 
         public Tileset FindTileset(string name)
         {
@@ -57,24 +58,43 @@ namespace gbforge2.Data
             {
                 return;
             }
-            _paintColor = c;
+            PaintColor = c;
             FireOnPaintColorChanged();
+        }
+
+        public void AddTileset(string name)
+        {
+            var toAdd = new Tileset();
+            toAdd.Name = name;
+            Tilesets.Add(toAdd);
+            FireOnTilesetAdded(toAdd);
+            SelectTileset(name);
+        }
+
+        public void SelectTileset(string name)
+        {
+            ActiveTileset = FindTileset(name);
+            FireOnActiveTilesetChanged();
+        }
+
+        void FireOnActiveTilesetChanged()
+        {
+            OnActiveTilesetChanged?.Invoke();
+        }
+
+        void FireOnTilesetAdded(Tileset newTileset)
+        {
+            OnTilesetAdded?.Invoke(newTileset);
         }
 
         void FireOnPaintColorChanged()
         {
-            if(OnPaintColorChange != null)
-            {
-                OnPaintColorChange.Invoke();
-            }
+            OnPaintColorChange?.Invoke();
         }
 
         void FireOnPaletteChanged()
         {
-            if(OnPaletteChange != null)
-            {
-                OnPaletteChange.Invoke();
-            }
+            OnPaletteChange?.Invoke();
         }
     }
 }

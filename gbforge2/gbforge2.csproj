@@ -62,6 +62,12 @@
     <Compile Include="Forms\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\NewTilesetDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NewTilesetDialog.Designer.cs">
+      <DependentUpon>NewTilesetDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\TilePaintControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -81,6 +87,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NewTilesetDialog.resx">
+      <DependentUpon>NewTilesetDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TilePaintControl.resx">
       <DependentUpon>TilePaintControl.cs</DependentUpon>
